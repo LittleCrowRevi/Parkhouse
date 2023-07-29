@@ -1,15 +1,13 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using System;
-using System.Diagnostics;
-using Npgsql;
-using System.Collections.Generic;
+using Avalonia.Media;
 using LiteDB;
-using Microsoft.CodeAnalysis.CSharp;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Parkhouse
 {
-    
+
     public partial class MainWindow : Window
     {
         int _freiePlätze;
@@ -72,7 +70,7 @@ namespace Parkhouse
             }
         }
 
-        public static LiteDatabase db = new LiteDatabase(@"Parkhaus.db");
+        public static LiteDatabase db = new(@"Parkhaus.db");
 
         // on table creation also maximum number of rows are generated
         // to assign a spot it would check if a spot with a NULL fahrzeug exists and assign it
@@ -106,14 +104,30 @@ namespace Parkhouse
 
         }
 
-        public void ParkplatzZuteilen(object source, RoutedEventArgs args)
+        public void PlatzReservieren(object source, RoutedEventArgs args)
         {
             var p = new ParkplatzWindow();
             if (QueryFreiePlätze() == 0)
             {
+                NotifyBelegt();
                 return;
             }
             p.Show();
+        }
+
+        public void NotifyBelegt()
+        {
+            var bgColor = new SolidColorBrush
+            {
+                Color = Color.FromArgb((byte)0.5, 250, 5, 5)
+            };
+            var borderColor = new SolidColorBrush
+            {
+                Color = Color.FromArgb((byte)0.9, 255, 0, 0)
+            };
+            warnLabel.Background = bgColor;
+            warnLabel.BorderBrush = borderColor;
+            warnLabel.IsVisible = true;
         }
 
 

@@ -1,34 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Avalonia.Controls;
-using Avalonia.Interactivity;
-using System;
+﻿using LiteDB;
 using System.Diagnostics;
-using LiteDB;
+using System.Linq;
 
 namespace Parkhouse
 {
     public class Parkplatz
     {
         public int Nummer { get; set; }
-        public string Status { get; set; } = "frei";
+        public string Status { get; set; } = "belegt";
     }
     public class Etage
     {
         public int ID { get; set; }
-        public int maxPlätze { get; set; }
+        public int MaxPlätze { get; set; }
 
         public Etage(int m, int id)
         {
             ID = id;
-            maxPlätze = m;
+            MaxPlätze = m;
             var etage = MainWindow.db.GetCollection<Parkplatz>($"etage_{ID}");
-            for(int i = 0; i < maxPlätze; i++)
+            for (int i = 0; i < MaxPlätze; i++)
             {
-                etage.Upsert(ID * 100 + i, new Parkplatz { Nummer = ID * 100 + i});
+                etage.Upsert(ID * 100 + i, new Parkplatz { Nummer = ID * 100 + i });
             }
             etage.EnsureIndex(x => x.Nummer);
             etage.EnsureIndex(x => x.Status);
