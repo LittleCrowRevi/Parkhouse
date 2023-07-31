@@ -22,7 +22,7 @@
 
 
   <ItemGroup>
-    <Compile Update="ParkplatzWindow.axaml.cs">
+    <Compile Update="Pages\ParkplatzWindow.axaml.cs">
       <DependentUpon>ParkplatzWindow.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
