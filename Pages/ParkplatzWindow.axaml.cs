@@ -23,6 +23,8 @@ namespace Parkhouse
             {
                 return;
             }
+
+            // durchsucht jede derzeite etage nach einem freien Parkplatz
             foreach (Etage e in parkhaus.FindAll())
             {
                 var id = e.FindeFreienPlatz(kennzeichen);

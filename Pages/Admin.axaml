@@ -36,16 +36,16 @@
 							  HorizontalAlignment="Center">
 							<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Margin="5 6 0 0">Etagen</TextBlock>
 							<TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Margin="0 6 0 0" Name="currentEtagenNum"></TextBlock>
-							<TextBox Grid.Row="0" Grid.Column="2" Margin="10 5 10 5" MinHeight="25" TextAlignment="Center" MaxLength="10" Padding="0 3 0 0" Name="maxEtagenInput" TextWrapping="Wrap"></TextBox>
+							<TextBox Grid.Row="0" Grid.Column="2" Margin="10 5 10 5" MinHeight="25" TextAlignment="Center" MaxLength="2" Padding="0 3 0 0" Name="maxEtagenInput" TextWrapping="Wrap"></TextBox>
 							<TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Margin="5 6 0 0">Parkplätze</TextBlock>
 							<TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Margin="0 6 0 0" Name="currentParkNum"></TextBlock>
-							<TextBox Grid.Row="1" Grid.Column="2" Margin="10 5 10 5" MinHeight="25" TextAlignment="Center" MaxLength="10" Padding="0 3 0 0" Name="maxParkInput" TextWrapping="Wrap"></TextBox>
+							<TextBox Grid.Row="1" Grid.Column="2" Margin="10 5 10 5" MinHeight="25" TextAlignment="Center" MaxLength="2" Padding="0 3 0 0" Name="maxParkInput" TextWrapping="Wrap"></TextBox>
 						</Grid>
 					</Border>
 				</StackPanel>
 			</Viewbox>
 			<Viewbox Stretch="Uniform" Margin="35 0 40 0">
-				<Button Click="ChangeMaxAdmin" HorizontalAlignment="Center" Margin="60 10 60 15" >Save</Button>
+				<Button Click="ChangeMaxValues" HorizontalAlignment="Center" Margin="60 10 60 15" >Save</Button>
 			</Viewbox>
 		</StackPanel>
 		<Viewbox Name="InfoPanel" IsVisible="False" Margin="30 50 30 0" HorizontalAlignment="Center" VerticalAlignment="Center">

@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Parkhouse.Util;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Parkhouse.Pages
 {
@@ -18,22 +19,26 @@ namespace Parkhouse.Pages
             currentParkNum.Text = $"[{maxParkplätze}]";
         }
 
-        public void ChangeMaxAdmin(object source, RoutedEventArgs args)
+        public void ChangeMaxValues(object source, RoutedEventArgs args)
         {
+            if (maxParkInput.Text != null && int.TryParse(maxParkInput.Text, out int n))
+            {
+                if (MainWindow.Parkhaus().Count() > 0)
+                {
+                    foreach (Etage e in MainWindow.Parkhaus().FindAll())
+                    {
+
+                        e.AdjustMaxPark(n);
+                    }
+                }
+                MainWindow.MaxParkplätze = n;
+                currentParkNum.Text = $"[{MainWindow.MaxParkplätze}]";
+            }
             if (maxEtagenInput.Text != null && int.TryParse(maxEtagenInput.Text, out int s))
             {
                 MainWindow.ChangeEtagen(s);
                 var etagen = MainWindow.Parkhaus().Count();
                 currentEtagenNum.Text = $"[{etagen}]";
-            }
-            if (maxParkInput.Text != null && int.TryParse(maxParkInput.Text, out int n))
-            {
-                MainWindow.MaxParkplätze = n;
-                foreach (Etage e in MainWindow.Parkhaus().FindAll())
-                {
-                    e.AdjustMaxPark(n);
-                }
-                currentParkNum.Text = $"[{MainWindow.MaxParkplätze}]";
             }
         }
 

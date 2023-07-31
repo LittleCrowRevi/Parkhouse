@@ -63,7 +63,7 @@ namespace Parkhouse.Util
         public void AdjustMaxPark(int newMax)
         {
             var etage = MainWindow.Etage(ID);
-            if (newMax < MaxPlätze)
+            if (newMax < MaxPlätze && newMax > -1)
             {
                 for (int i = newMax; i < MaxPlätze; i++)
                 {
@@ -73,14 +73,14 @@ namespace Parkhouse.Util
                     }
                 }
             }
-            if (newMax > MaxPlätze)
+            if (newMax > MaxPlätze )
             {
                 for (int i = newMax; i > MaxPlätze; i--)
                 {
                     etage.Upsert(ID * 100 + i, new Parkplatz { Nummer = ID * 100 + i });
                 }
             }
-            MainWindow.Parkhaus().Update(this);
+            MaxPlätze = newMax;
             MainWindow.NotifyUpdate();
         }
     }

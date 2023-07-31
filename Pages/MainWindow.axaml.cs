@@ -19,7 +19,6 @@ namespace Parkhouse
             get { return _freiePlätze; }
             set
             {
-                Debug.WriteLine("New FP: " + value);
                 if (value < 0)
                 {
                     _freiePlätze = 0;
@@ -41,6 +40,12 @@ namespace Parkhouse
                     _maxParkPlätze = 0;
                     return;
                 }
+                foreach (Etage e in Parkhaus().FindAll())
+                {
+                    e.MaxPlätze = value;
+                    Parkhaus().Update(e);
+                }
+                NotifyUpdate();
                 _maxParkPlätze = value;
             }
         }
@@ -57,6 +62,11 @@ namespace Parkhouse
 
         public delegate void Notify();
         public static event Notify? Update;
+        // Wrap event...
+        public static void NotifyUpdate()
+        {
+            Update?.Invoke();
+        }
 
 
         // on table creation also maximum number of rows are generated
@@ -65,9 +75,8 @@ namespace Parkhouse
         public MainWindow()
         {
             InitializeComponent();
-            Update += OnMaxParkChange;
-            NotifyUpdate();
-            if (MainWindow.Parkhaus().Count() == 0)
+            Update += OnParkplatzChange;
+            if (Parkhaus().Count() == 0)
             {
                 MaxParkplätze = 0;
                 var a = new Admin();
@@ -77,11 +86,16 @@ namespace Parkhouse
             {
                 MaxParkplätze = Parkhaus().FindAll().First().MaxPlätze;
             }
+            NotifyUpdate();
 
         }
 
         public static int QueryFreiePlätze()
         {
+            if (Parkhaus().Count() == 0)
+            {
+                return 0;
+            }
             var count = 0;
             foreach (Etage etage in Parkhaus().FindAll())
             {
@@ -90,14 +104,9 @@ namespace Parkhouse
             return count;
         }
 
-        // Wrap event...
-        public static void NotifyUpdate()
-        {
-            Update?.Invoke();
-        }
 
         // update text für freie parkplätze
-        public void OnMaxParkChange()
+        public void OnParkplatzChange()
         {
             FreiePlätze = QueryFreiePlätze();
         }
@@ -118,6 +127,7 @@ namespace Parkhouse
             }
         }
 
+        // parkplatz fenster wird hier geöffnet falls es einen freien Platz gibt
         public void PlatzReservieren(object source, RoutedEventArgs args)
         {
             var p = new ParkplatzWindow();
@@ -151,7 +161,7 @@ namespace Parkhouse
             warnLabel.IsVisible = true;
         }
 
-
+        
         public static void ChangeEtagen(int num)
         {
             var currentEtagenNum = Parkhaus().Count();
